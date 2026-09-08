@@ -6,8 +6,12 @@ window.MARTIM_CONFIG = {
   // fonte dos dados: URL do app da web do Apps Script (termina em /exec)
   arquivo: 'https://script.google.com/macros/s/AKfycbw1tM-C-xwrXolul-5A4lsgk3DlS4qdavubNF_ruRitz9SrjCQh-PF3Ke2kftTBwHqE/exec',
 
+  // painel de LED com pixel pitch grosso (P2.5 ou mais): textos maiores e contorno mais grosso.
+  // Com P1 não é necessário; deixe false para seguir o desenho exato do Figma.
+  modoLed: false,
+
   // relê a fonte a cada N segundos
-  recarregarCadaSeg: 5,
+  recarregarCadaSeg: 15,
 
   // status da planilha que aparecem como "Disponível"; todos os outros aparecem como "Reservada"
   statusDisponivel: ['livre'],
