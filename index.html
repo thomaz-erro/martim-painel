@@ -21,19 +21,19 @@
   .side{padding:44px 36px 40px 44px;display:flex;flex-direction:column;border-right:1px solid var(--line)}
   .title{font-size:15px;color:var(--ink-2)}
   .updated{margin-top:6px;font-size:12px;color:var(--ink-2)}
-  .logo{margin-top:56px;width:234px;height:86px}
+  .logo{margin-top:42px;width:234px;height:86px}
   .logo svg{width:100%;height:100%}
-  .kpi{margin-top:56px}
+  .kpi{margin-top:42px}
   .big{font-size:64px;font-weight:800;line-height:.95;letter-spacing:-.03em}
   .big small{font-size:18px;font-weight:400;color:var(--ink-2);letter-spacing:0;margin-left:6px}
-  .bar{margin-top:38px;height:14px;display:flex;overflow:hidden;background:#fff;border:1px solid var(--line)}
+  .bar{margin-top:20px;height:14px;display:flex;overflow:hidden;background:#fff;border:1px solid var(--line)}
   .bar i{display:block;height:100%}
-  .rows{margin-top:14px;font-size:13px}
+  .rows{margin-top:20px;font-size:13px}
   .rows div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
   .rows div:last-child{border-bottom:0}
   .rows span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
   .rows .sw{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px;border:1px solid var(--line)}
-  .tipos{margin-top:64px;font-size:13px}
+  .tipos{margin-top:76px;font-size:13px}
   .tipos h3{font-size:13px;font-weight:600;margin-bottom:8px}
   .tipo{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
   .tipo:last-child{border-bottom:0}
@@ -42,22 +42,22 @@
   .tipo .mini{width:72px;height:6px;background:#fff;border:1px solid var(--line)}
   .tipo .mini i{display:block;height:100%;background:var(--res)}
 
-  .main{padding:30px 40px 30px 34px;display:flex;flex-direction:column}
-  .floors{display:flex;flex-direction:column;gap:7px}
+  .main{padding:26px 40px 26px 34px;display:flex;flex-direction:column;gap:14px}
+  .floors{display:flex;flex-direction:column;gap:6px}
   .floor{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:center}
   .fl{font-size:11px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
   .units{display:flex;gap:6px}
-  .u{width:66px;height:26px;flex:none;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;position:relative;font-variant-numeric:tabular-nums}
+  .u{width:66px;height:25px;flex:none;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;position:relative;font-variant-numeric:tabular-nums}
   .u:before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px}
   .u.A:before{background:var(--t3941)} .u.C:before{background:var(--t4863)} .u.B:before{background:var(--t7088)}
   .u.dis{background:var(--livre);color:var(--livre-text)}
   .u.res{background:var(--res);color:var(--res-text)}
-  .amen{height:26px;flex:none;display:flex;align-items:center;padding:0 10px;font-size:11px;color:var(--ink-2);background:var(--amen);border:1px dashed var(--line)}
-  .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px;margin-bottom:8px}
+  .amen{height:25px;flex:none;display:flex;align-items:center;padding:0 10px;font-size:11px;color:var(--ink-2);background:var(--amen);border:1px dashed var(--line)}
+  .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px}
   .vistas .units{align-items:flex-end}
-  .v{width:66px;flex:none;font-size:9px;line-height:1.2;color:var(--ink-2);text-align:center;padding-bottom:3px}
-  .vistas.sub{margin:0}
-  .legend{margin-top:auto;display:flex;gap:22px;font-size:12px;align-items:center;height:22px}
+  .v{width:66px;flex:none;font-size:9.5px;font-weight:600;line-height:1.2;color:var(--ink-2);text-align:center;padding-bottom:3px}
+  .vistas.sub{margin:8px 0 4px}
+  .legend{margin-top:auto;display:flex;gap:18px;font-size:12px;font-weight:500;align-items:center;height:22px;white-space:nowrap}
   .legend span{display:flex;align-items:center;gap:7px}
   .legend i{width:14px;height:14px;display:inline-block}
 
@@ -82,15 +82,15 @@
       <div class="rows" id="rows"></div>
     </div>
     <div class="tipos"><h3>Por tipologia</h3><div id="tipos"></div></div>
-  </aside>
-  <section class="main">
-    <div class="vistas" id="vistas"></div>
-    <div class="floors" id="floors"></div>
     <div class="legend">
       <span><i style="background:var(--livre)"></i>Disponível</span>
       <span><i style="background:var(--res)"></i>Reservada</span>
       <span><i style="background:var(--amen)"></i>Área condominial</span>
     </div>
+  </aside>
+  <section class="main">
+    <div class="vistas" id="vistas"></div>
+    <div class="floors" id="floors"></div>
   </section>
   <div id="drop">
     <div>Nenhuma planilha carregada.</div>
@@ -161,7 +161,7 @@ function lerPlanilha(buf){
 function render(andares, quando){
   const cnt={dis:0,res:0}; const tipoCnt={}; TIPO_ORDER.forEach(t=>tipoCnt[t]={t:0,r:0});
   const el = document.getElementById('floors'); el.innerHTML='';
-  const fmtVista = v => v.replace(/^Esq\. /,'Esq.<br>').replace('/',' /<br>');
+  const fmtVista = v => v.replace(/^Esq(uina|\.) /,'Esquina<br>').replace('/',' /<br>');
   const vistaRow = (finais) => `<div></div><div class="units">${finais.map(i=> i==null ? '<div class="v"></div>' : `<div class="v">${fmtVista(VISTAS[i]||'')}</div>`).join('')}</div>`;
   const maxTop = andares[0].salas.length;                       // colunas do andar mais alto
   const maxAll = Math.max(...andares.map(f=>f.salas.length));   // colunas do andar mais largo
