@@ -7,7 +7,7 @@ window.MARTIM_CONFIG = {
   arquivo: 'https://script.google.com/macros/s/AKfycbw1tM-C-xwrXolul-5A4lsgk3DlS4qdavubNF_ruRitz9SrjCQh-PF3Ke2kftTBwHqE/exec',
 
   // relê a fonte a cada N segundos
-  recarregarCadaSeg: 15,
+  recarregarCadaSeg: 5,
 
   // status da planilha que aparecem como "Disponível"; todos os outros aparecem como "Reservada"
   statusDisponivel: ['livre'],
