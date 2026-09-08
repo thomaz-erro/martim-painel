@@ -19,11 +19,11 @@
   .frame{width:1500px;height:1000px;background:var(--paper);display:grid;grid-template-columns:360px 1fr;transform-origin:center center;position:relative}
 
   .side{padding:44px 36px 40px 44px;display:flex;flex-direction:column;border-right:1px solid var(--line)}
-  .title{font-size:15px;color:var(--ink-2)}
-  .updated{margin-top:6px;font-size:12px;color:var(--ink-2)}
-  .logo{margin-top:42px;width:234px;height:86px}
+  .title{font-size:18px;color:var(--ink-2)}
+  .updated{margin-top:6px;font-size:12px;font-style:italic;color:var(--ink-2)}
+  .logo{margin-top:49px;width:234px;height:86px}
   .logo svg{width:100%;height:100%}
-  .kpi{margin-top:42px}
+  .kpi{margin-top:49px}
   .big{font-size:64px;font-weight:800;line-height:.95;letter-spacing:-.03em}
   .big small{font-size:18px;font-weight:400;color:var(--ink-2);letter-spacing:0;margin-left:6px}
   .bar{margin-top:20px;height:14px;display:flex;overflow:hidden;background:#fff;border:1px solid var(--line)}
@@ -32,8 +32,9 @@
   .rows div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
   .rows div:last-child{border-bottom:0}
   .rows span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+  .rows div.total span{font-weight:600}
   .rows .sw{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px;border:1px solid var(--line)}
-  .tipos{margin-top:76px;font-size:13px}
+  .tipos{margin-top:83px;font-size:13px}
   .tipos h3{font-size:13px;font-weight:600;margin-bottom:8px}
   .tipo{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
   .tipo:last-child{border-bottom:0}
@@ -42,7 +43,7 @@
   .tipo .mini{width:72px;height:6px;background:#fff;border:1px solid var(--line)}
   .tipo .mini i{display:block;height:100%;background:var(--res)}
 
-  .main{padding:26px 40px 26px 34px;display:flex;flex-direction:column;gap:14px}
+  .main{padding:26px 40px 26px 34px;display:flex;flex-direction:column;justify-content:center;gap:14px}
   .floors{display:flex;flex-direction:column;gap:6px}
   .floor{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:center}
   .fl{font-size:11px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
@@ -56,9 +57,10 @@
   .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px}
   .vistas .units{align-items:flex-end}
   .v{width:66px;flex:none;font-size:9.5px;font-weight:600;line-height:1.2;color:var(--ink-2);text-align:center;padding-bottom:3px}
-  .vistas.sub{margin:8px 0 4px}
-  .legend{margin-top:auto;display:flex;gap:18px;font-size:12px;font-weight:500;align-items:center;height:22px;white-space:nowrap}
-  .legend span{display:flex;align-items:center;gap:7px}
+  .vsub{position:relative;width:66px;height:25px;flex:none}
+  .vsub .v{position:absolute;left:0;bottom:0}
+  .legend{margin-top:auto;display:flex;gap:15px;font-size:12px;font-weight:500;align-items:center;height:22px;white-space:nowrap}
+  .legend span{display:flex;align-items:center;gap:5px}
   .legend i{width:14px;height:14px;display:inline-block}
 
   /* estado sem dados */
@@ -73,7 +75,7 @@
 <div id="stage">
 <div class="frame" id="frame">
   <aside class="side">
-    <div class="title">Painel de disponibilidade</div>
+    <div class="title">Painel de Disponibilidade</div>
     <div class="updated" id="updated">Atualizado em —</div>
     <div class="logo"><svg viewBox="0 0 234 86" xmlns="http://www.w3.org/2000/svg"><path d="M138.037 13.5127H146.971V23.8764H146.911C146.911 36.7315 136.347 47.1948 123.368 47.1948C113.457 47.1948 104.956 41.0962 101.485 32.4963H115.862C122.915 32.4963 128.65 26.8162 128.65 19.8306C128.65 12.845 122.915 7.16493 115.862 7.16493H93.3755V23.8665H93.3655C93.3655 24.1555 93.3655 24.4445 93.3755 24.7334V50.3936H99.8348V42.3219C100.549 43.2188 101.324 44.0758 102.149 44.8929C107.813 50.5033 115.349 53.6024 123.368 53.6024C131.386 53.6024 138.922 50.5132 144.587 44.8929C145.442 44.0459 146.237 43.159 146.971 42.2422V50.2442H153.43V13.5127H162.365V7.1151H138.047V13.5127H138.037ZM115.862 13.5725C119.343 13.5725 122.18 16.3827 122.18 19.8306C122.18 23.2785 119.343 26.0887 115.862 26.0887H99.8348V13.5725H115.862Z" fill="#1D1D1B"/><path d="M174.438 7.25461H167.979V50.4734H174.438V7.25461Z" fill="#1D1D1B"/><path d="M81.0004 7.42402V9.16792C80.9299 10.3438 80.6885 12.1575 79.9741 14.3597C78.2738 19.6014 74.843 24.4146 69.7621 28.6796C64.1178 33.423 60.355 38.4554 58.5541 43.6672C57.1556 47.723 57.4876 50.4036 57.5681 50.9019L63.9468 49.8854V49.9452C63.9468 49.9452 63.8965 49.5366 63.9669 48.8092C64.2386 48.1515 66.4017 46.1983 73.1225 44.853C76.2616 44.2252 78.8875 43.1191 81.0004 41.5645V50.3936H87.4596V9.35725C87.53 8.03189 87.4596 7.22472 87.4395 7.09517L80.9903 7.42402H81.0004ZM64.0374 48.3408C64.0374 48.6298 63.9971 48.7793 63.987 48.8192C63.987 48.6697 64.0172 48.5102 64.0374 48.3408ZM71.8448 38.585C70.5368 38.8441 69.3194 39.143 68.1825 39.4719C70.0136 37.0902 72.1466 35.0772 73.9375 33.5625C76.7646 31.1908 79.0083 28.7693 80.7891 26.4175C80.7488 28.6099 80.6482 31.2706 79.5415 33.5327C79.0686 34.4993 77.64 37.429 71.8448 38.5949V38.585Z" fill="#1D1D1B"/><path d="M233.969 6.84604L227.52 7.16493V8.94868C227.45 10.1445 227.208 11.998 226.494 14.2302C224.794 19.5516 221.363 24.4146 216.282 28.6796C212.398 31.9382 209.4 35.3463 207.328 38.8441C205.255 35.3463 202.257 31.9382 198.373 28.6796C193.302 24.4146 189.862 19.5516 188.161 14.2302C187.447 11.998 187.205 10.1445 187.135 8.94868V7.16493L180.686 6.84604C180.686 6.97559 180.595 7.8027 180.666 9.14799V50.3936H187.125V26.1086C188.936 28.57 191.24 31.0912 194.188 33.5625C197.317 36.1933 201.432 40.3588 203.293 45.2716C203.716 46.3877 203.937 47.3443 204.058 48.0917C203.937 49.2676 203.987 50.1146 204.038 50.583C205.064 50.3538 206.13 50.2342 207.217 50.2342C208.384 50.2342 209.511 50.3737 210.597 50.6228C210.648 50.1744 210.698 49.3074 210.577 48.0917C210.698 47.3443 210.919 46.3877 211.342 45.2716C213.203 40.3488 217.318 36.1834 220.447 33.5625C223.385 31.0912 225.699 28.57 227.51 26.1086V50.3936H233.969V9.14799C234.04 7.8027 233.969 6.97559 233.949 6.84604H233.969Z" fill="#1D1D1B"/><path d="M53.3223 6.86597L46.8731 7.18486V8.96861C46.8027 10.1445 46.5612 11.9582 45.8771 14.1405C44.1767 17.3393 40.5749 20.2292 35.4336 22.5013C30.0208 24.9029 26.4491 27.9522 24.789 31.5895C23.5817 28.57 21.9316 25.3612 19.859 22.003C16.7401 16.9606 15.2913 11.9083 15.6535 7.40409C15.9252 4.02591 17.1325 2.10264 17.1426 2.08271L13.8928 0C13.6413 0.38864 7.72536 9.69607 16.559 24.006C18.199 26.6567 19.4264 29.0184 20.352 31.0513C19.527 30.2541 18.6517 29.4768 17.7261 28.6996C12.6553 24.4345 9.2144 19.5715 7.51407 14.2501C6.79974 12.0179 6.55827 10.1644 6.48784 8.96861V7.18486L0.0487363 6.86597C0.0386752 6.99552 -0.0418136 7.82262 0.0286141 9.16792V50.4136H6.48784V26.1286C8.29884 28.5899 10.6028 31.1111 13.5407 33.5825C16.6697 36.2133 20.7847 40.3787 22.646 45.2915C23.0685 46.4076 23.2899 47.3642 23.4106 48.1116C23.2798 49.3872 23.3503 50.284 23.4006 50.7125C24.4167 50.4036 25.5033 50.2342 26.6201 50.2342C27.7369 50.2342 28.8939 50.4136 29.9403 50.7424C29.9906 50.3239 30.061 49.4171 29.9403 48.1116C30.061 47.3642 30.2824 46.4076 30.7049 45.2915C32.5662 40.3687 36.6812 36.2033 39.8102 33.5825C42.7481 31.1111 45.0621 28.5899 46.8631 26.1286V50.4136H53.3223V9.16792C53.3927 7.82262 53.3223 6.99552 53.3022 6.86597H53.3223ZM35.6349 28.6996C32.3449 31.4599 29.6988 34.3199 27.7067 37.2596C27.586 36.3329 27.6061 35.147 28.0588 33.8515C29.1253 30.8122 32.1437 28.1714 37.0233 26.009C38.0193 25.5705 38.945 25.1121 39.8002 24.6537C38.5626 26.0588 37.1742 27.4041 35.6349 28.6996Z" fill="#1D1D1B"/><path d="M29.4573 77.1002V78.9437H29.4775C30.0107 77.6582 31.1074 76.9208 32.687 76.9208C34.5281 76.9208 35.5141 77.9173 35.5141 80.1395V85.7699H34.8098V80.2691C34.8098 78.3658 34.0955 77.5187 32.526 77.5187C30.6647 77.5187 29.4473 78.8839 29.4473 80.7973V85.7699H28.743V77.1002H29.4573Z" fill="#1D1D1B"/><path d="M42.6273 81.435C42.6273 78.8042 44.1969 76.9308 46.7222 76.9308C49.2475 76.9308 50.8171 78.8042 50.8171 81.435C50.8171 84.0658 49.2475 85.9492 46.7222 85.9492C44.1969 85.9492 42.6273 84.0658 42.6273 81.435ZM50.1027 81.435C50.1027 79.1729 48.8853 77.5287 46.7222 77.5287C44.5591 77.5287 43.3417 79.1829 43.3417 81.435C43.3417 83.6871 44.549 85.3513 46.7222 85.3513C48.8954 85.3513 50.1027 83.6772 50.1027 81.435Z" fill="#1D1D1B"/><path d="M56.6223 77.1002H57.387L59.5602 82.9697L60.2946 84.9228H60.3147L61.0392 82.9697L63.1218 77.1002H63.8563L60.687 85.7699H59.9022L56.6223 77.1002Z" fill="#1D1D1B"/><path d="M69.7521 83.5377C69.7521 82.0828 70.5972 81.1361 73.1225 80.9567L75.7887 80.7674V80.299C75.7887 78.6149 75.1851 77.5287 73.3539 77.5287C71.7643 77.5287 70.899 78.306 70.7884 79.3423H70.1243C70.2551 78.007 71.382 76.9308 73.4445 76.9308C75.507 76.9308 76.493 78.0568 76.493 80.3488V84.5043C76.493 85.0823 76.664 85.3214 77.1772 85.3214C77.3583 85.3214 77.5293 85.3015 77.6802 85.2716H77.7003V85.8496C77.4589 85.9094 77.2275 85.9293 77.0162 85.9293C76.2113 85.9293 75.8189 85.5705 75.8189 84.7135V83.8765H75.7988C75.2052 85.2417 73.9978 85.9592 72.5189 85.9592C70.9393 85.9592 69.7521 85.162 69.7521 83.5476V83.5377ZM72.6597 85.3513C74.4808 85.3513 75.7887 84.016 75.7887 82.0628V81.3354L73.0219 81.5347C71.3015 81.6543 70.4563 82.2522 70.4563 83.4978C70.4563 84.4644 71.0399 85.3513 72.6597 85.3513Z" fill="#1D1D1B"/><path d="M83.7571 83.0793H84.4614C84.5821 84.5641 85.4876 85.3513 87.3187 85.3513C88.9386 85.3513 89.8541 84.6538 89.8541 83.438C89.8541 82.5412 89.331 81.9333 88.2142 81.7639L85.9504 81.4151C84.6525 81.2257 83.9483 80.3787 83.9483 79.2526C83.9483 77.7977 85.1154 76.9208 87.0773 76.9208C89.0392 76.9208 90.0956 77.7977 90.2968 79.3623H89.5926C89.4316 78.1964 88.6066 77.5187 87.0572 77.5187C85.5077 77.5187 84.6324 78.1366 84.6324 79.2128C84.6324 80.0399 85.1657 80.6478 86.3126 80.8172L88.506 81.146C89.824 81.3453 90.5886 82.1625 90.5685 83.428C90.5584 85.0324 89.3612 85.9392 87.2986 85.9392C84.9443 85.9392 83.8477 84.7534 83.7672 83.0693L83.7571 83.0793Z" fill="#1D1D1B"/><path d="M106.113 77.1002H106.817V80.9168H112.019V77.1002H112.723V85.7699H112.019V81.5247H106.817V85.7699H106.113V77.1002Z" fill="#1D1D1B"/><path d="M120.118 75.0573H120.832V76.014H120.118V75.0573ZM120.128 77.1002H120.832V85.7699H120.128V77.1002Z" fill="#1D1D1B"/><path d="M127.905 83.0793H128.61C128.73 84.5641 129.636 85.3513 131.467 85.3513C133.087 85.3513 134.002 84.6538 134.002 83.438C134.002 82.5412 133.479 81.9333 132.362 81.7639L130.099 81.4151C128.801 81.2257 128.096 80.3787 128.096 79.2526C128.096 77.7977 129.263 76.9208 131.225 76.9208C133.187 76.9208 134.244 77.7977 134.445 79.3623H133.741C133.58 78.1964 132.755 77.5187 131.205 77.5187C129.656 77.5187 128.781 78.1366 128.781 79.2128C128.781 80.0399 129.314 80.6478 130.461 80.8172L132.654 81.146C133.972 81.3453 134.737 82.1625 134.717 83.428C134.707 85.0324 133.509 85.9392 131.447 85.9392C129.092 85.9392 127.996 84.7534 127.915 83.0693L127.905 83.0793Z" fill="#1D1D1B"/><path d="M142.735 83.3782V77.6981H140.683V77.1002H146.991V77.6981H143.43V83.2786C143.43 84.7833 143.953 85.3214 145.15 85.3214C145.703 85.3214 146.247 85.2118 146.8 84.9826H146.81V85.5905C146.227 85.8296 145.643 85.9392 145.009 85.9392C143.359 85.9392 142.715 85.1719 142.715 83.3683L142.735 83.3782Z" fill="#1D1D1B"/><path d="M152.817 81.435C152.817 78.8042 154.386 76.9308 156.911 76.9308C159.437 76.9308 161.006 78.8042 161.006 81.435C161.006 84.0658 159.437 85.9492 156.911 85.9492C154.386 85.9492 152.817 84.0658 152.817 81.435ZM160.292 81.435C160.292 79.1729 159.075 77.5287 156.911 77.5287C154.748 77.5287 153.531 79.1829 153.531 81.435C153.531 83.6871 154.738 85.3513 156.911 85.3513C159.085 85.3513 160.292 83.6772 160.292 81.435ZM158.853 74.7385L157.183 76.303H156.579L158.038 74.7385H158.853Z" fill="#1D1D1B"/><path d="M168.824 77.1002V78.8341H168.834C169.307 77.6184 170.212 76.9208 171.51 76.9208C171.772 76.9208 172.033 76.9408 172.255 77.0205V77.6881H172.234C172.033 77.6383 171.802 77.6184 171.53 77.6184C169.759 77.6184 168.814 78.9936 168.814 80.6677V85.7699H168.109V77.1002H168.824Z" fill="#1D1D1B"/><path d="M179.046 75.0573H179.76V76.014H179.046V75.0573ZM179.056 77.1002H179.76V85.7699H179.056V77.1002Z" fill="#1D1D1B"/><path d="M186.753 83.5377C186.753 82.0828 187.598 81.1361 190.123 80.9567L192.789 80.7674V80.299C192.789 78.6149 192.186 77.5287 190.355 77.5287C188.765 77.5287 187.9 78.306 187.789 79.3423H187.125C187.256 78.007 188.383 76.9308 190.445 76.9308C192.508 76.9308 193.494 78.0568 193.494 80.3488V84.5043C193.494 85.0823 193.665 85.3214 194.178 85.3214C194.359 85.3214 194.53 85.3015 194.681 85.2716H194.701V85.8496C194.459 85.9094 194.228 85.9293 194.017 85.9293C193.212 85.9293 192.819 85.5705 192.819 84.7135V83.8765H192.799C192.206 85.2417 190.998 85.9592 189.519 85.9592C187.94 85.9592 186.753 85.162 186.753 83.5476V83.5377ZM189.66 85.3513C191.481 85.3513 192.789 84.016 192.789 82.0628V81.3354L190.022 81.5347C188.302 81.6543 187.457 82.2522 187.457 83.4978C187.457 84.4644 188.04 85.3513 189.67 85.3513H189.66Z" fill="#1D1D1B"/><path d="M200.758 83.0793H201.462C201.583 84.5641 202.488 85.3513 204.319 85.3513C205.939 85.3513 206.855 84.6538 206.855 83.438C206.855 82.5412 206.332 81.9333 205.215 81.7639L202.951 81.4151C201.653 81.2257 200.949 80.3787 200.949 79.2526C200.949 77.7977 202.116 76.9208 204.078 76.9208C206.04 76.9208 207.096 77.7977 207.297 79.3623H206.593C206.432 78.1964 205.607 77.5187 204.058 77.5187C202.508 77.5187 201.633 78.1366 201.633 79.2128C201.633 80.0399 202.166 80.6478 203.313 80.8172L205.507 81.146C206.825 81.3453 207.589 82.1625 207.569 83.428C207.559 85.0324 206.362 85.9392 204.299 85.9392C201.945 85.9392 200.848 84.7534 200.768 83.0693L200.758 83.0793Z" fill="#1D1D1B"/></svg></div>
     <div class="kpi">
@@ -166,13 +168,13 @@ function render(andares, quando){
   const maxTop = andares[0].salas.length;                       // colunas do andar mais alto
   const maxAll = Math.max(...andares.map(f=>f.salas.length));   // colunas do andar mais largo
   document.getElementById('vistas').innerHTML = vistaRow(Array.from({length:maxTop},(_,i)=>i+1));
+  // vistas das colunas extras (torre mais larga embaixo): vão no andar mais próximo, acima do primeiro andar
+  // largo, que ainda tenha aquelas colunas vazias (sem sala nem área comum)
+  const larguraOcupada = f => f.salas.length + (CONFIG.areasComuns[f.andar] ? CONFIG.areasComuns[f.andar].span : 0);
+  const idxLargo = andares.findIndex(f=>f.salas.length>maxTop);
+  let idxSub = -1;
+  if (idxLargo>0){ for (let k=idxLargo-1; k>=0; k--){ if (larguraOcupada(andares[k])<=maxTop){ idxSub=k; break; } } }
   andares.forEach((f,k)=>{
-    // quando a torre alarga, coloca a vista das colunas extras logo acima do primeiro andar largo
-    if (f.salas.length>maxTop && (k===0 || andares[k-1].salas.length<=maxTop)){
-      const sub=document.createElement('div'); sub.className='vistas sub';
-      sub.innerHTML = vistaRow(Array.from({length:f.salas.length},(_,i)=> i<maxTop ? null : i+1));
-      el.appendChild(sub);
-    }
     const row=document.createElement('div'); row.className='floor';
     row.innerHTML=`<div class="fl">${f.andar}º</div>`;
     const units=document.createElement('div'); units.className='units';
@@ -183,7 +185,9 @@ function render(andares, quando){
       if (tipoCnt[s.tipo]){ tipoCnt[s.tipo].t++; if(!dis) tipoCnt[s.tipo].r++; }
       return `<div class="u ${TIPO_CLASS[s.tipo]||''} ${dis?'dis':'res'}">${s.n}</div>`;
     }).join('');
-    units.innerHTML = ac && ac.pos==='antes' ? amen+tiles : tiles+amen;
+    let extra='';
+    if (k===idxSub){ const larga=andares[idxLargo]; extra = Array.from({length:larga.salas.length-maxTop},(_,i)=>`<div class="vsub"><div class="v">${fmtVista(VISTAS[maxTop+i+1]||'')}</div></div>`).join(''); }
+    units.innerHTML = (ac && ac.pos==='antes' ? amen+tiles : tiles+amen) + extra;
     row.appendChild(units); el.appendChild(row);
   });
   const total=cnt.dis+cnt.res, pct=total?Math.round(cnt.res/total*100):0;
@@ -192,7 +196,7 @@ function render(andares, quando){
   document.getElementById('rows').innerHTML=
     `<div><span><i class="sw" style="background:var(--res)"></i>Reservadas</span><span>${cnt.res}</span></div>`+
     `<div><span><i class="sw" style="background:var(--livre)"></i>Disponíveis</span><span>${cnt.dis}</span></div>`+
-    `<div><span>Total de salas</span><span>${total}</span></div>`;
+    `<div class="total"><span>Total de salas</span><span>${total}</span></div>`;
   document.getElementById('tipos').innerHTML=TIPO_ORDER.map(k=>{ const c=tipoCnt[k]; const p=c.t?Math.round(c.r/c.t*100):0;
     return `<div class="tipo"><b style="background:var(${TIPO_VAR[k]})"></b><div>Salas de ${k}<em>${c.t} salas, ${p}% reservado</em></div><div class="mini"><i style="width:${p}%"></i></div></div>`; }).join('');
   document.getElementById('updated').textContent='Atualizado em '+quando.toLocaleString('pt-BR',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace('.','');
