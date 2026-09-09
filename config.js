@@ -14,7 +14,7 @@ window.MARTIM_CONFIG = {
   tema: 'black',
 
   // relê a fonte a cada N segundos
-  recarregarCadaSeg: 15,
+  recarregarCadaSeg: 5,
 
   // status da planilha que aparecem como "Disponível"; todos os outros aparecem como "Reservada"
   statusDisponivel: ['livre'],
