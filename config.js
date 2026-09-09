@@ -10,6 +10,9 @@ window.MARTIM_CONFIG = {
   // Com P1 não é necessário; deixe false para seguir o desenho exato do Figma.
   modoLed: false,
 
+  // tema inicial: 'black' (fundo preto) ou 'off' (fundo creme). O botão no canto da tela troca e guarda a escolha no navegador.
+  tema: 'black',
+
   // relê a fonte a cada N segundos
   recarregarCadaSeg: 15,
 
