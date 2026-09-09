@@ -21,10 +21,10 @@ window.MARTIM_CONFIG = {
 
   // vista de cada final (só precisa listar o que quiser mudar)
   vistas: {
-    1:'Boulevard', 2:'Boulevard', 3:'Esquina Boulevard/The One', 4:'Esquina The One/Cassiano',
-    5:'Cassiano', 6:'Cassiano', 7:'Cassiano', 8:'Cassiano', 9:'Esquina Cassiano/R. Acalmada',
-    10:'Esquina R. Acalmada/Parque', 11:'Rua Acalmada', 12:'Esquina Acalmada/Parque',
-    13:'Esquina Parque/Boulevard', 14:'Boulevard'
+    1:'Galeria', 2:'Galeria', 3:'Galeria/The One', 4:'The One/Cassiano',
+    5:'Cassiano', 6:'Cassiano', 7:'Cassiano', 8:'Cassiano', 9:'Cassiano/R. Acalmada',
+    10:'R. Acalmada/Parque', 11:'Rua Acalmada', 12:'Acalmada/Parque',
+    13:'Parque/Galeria', 14:'Galeria'
   },
 
   // nomes das áreas condominiais por andar
