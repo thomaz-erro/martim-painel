@@ -10,8 +10,10 @@
     --t7088:#284A9B; --t4863:#5BC2D8; --t3941:#EC713D;  /* tipologias (book pág. 74) */
     --res:#F3DA5E;                                        /* sala reservada */
   }
-  .frame[data-tema="black"]{ --paper:#1B1D1B; --text:#FCEFD9; --stroke:#FCEFD9; }
-  .frame[data-tema="off"]{   --paper:#FCEFD9; --text:#1B1D1B; --stroke:#1B1D1B; }
+  /* black: tipologias a 100%, texto creme em todas; reservada preta com contorno creme, texto creme a 80% */
+  .frame[data-tema="black"]{ --paper:#1B1D1B; --text:#FCEFD9; --stroke:#FCEFD9; --tile-alpha:1; --tile-text-claro:#FCEFD9; --res-bg:#1B1D1B; --res-text:rgba(252,239,217,.8); --leg-alpha:1; }
+  /* off: tipologias a 70%, texto preto no azul-claro e no laranja; reservada creme com contorno preto, texto preto a 50% */
+  .frame[data-tema="off"]{   --paper:#FCEFD9; --text:#1B1D1B; --stroke:#1B1D1B; --tile-alpha:.7; --tile-text-claro:#1B1D1B; --res-bg:#FCEFD9; --res-text:rgba(27,29,27,.5); --leg-alpha:.75; }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;background:#1B1D1B;font-family:"Articulat CF","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;overflow:hidden}
   #stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
@@ -23,11 +25,14 @@
   .floor{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:center}
   .fl{font-size:11px;font-weight:600;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
   .units{display:flex;gap:14px}
-  .u{width:81px;height:31px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+  .u{width:81px;height:31px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1;position:relative;isolation:isolate}
   .u b{font-size:12px;font-weight:800;line-height:13px}
   .u small{font-size:8.5px;font-weight:700;line-height:10px;opacity:.85}
-  .u.A{background:var(--t3941)} .u.C{background:var(--t4863)} .u.B{background:var(--t7088);color:#FCEFD9}
-  .u.res{background:var(--res);color:rgba(27,29,27,.5)}
+  .u.A,.u.C{color:var(--tile-text-claro)} .u.B{color:#FCEFD9}
+  .u.A:before,.u.C:before,.u.B:before{content:"";position:absolute;inset:0;z-index:-1;opacity:var(--tile-alpha)}
+  .u.A:before{background:var(--t3941)} .u.C:before{background:var(--t4863)} .u.B:before{background:var(--t7088)}
+  .u.res{background:var(--res-bg);color:var(--res-text)!important;box-shadow:inset 0 0 0 1.5px var(--stroke)}
+  .u.res:before{display:none}
   .amen{height:31px;flex:none;display:flex;align-items:center;padding:0 10px;font-size:11px;color:var(--amen-text);background:var(--amen)}
   .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px}
   .vistas .units{align-items:flex-end}
@@ -45,7 +50,8 @@
   .legend{margin-top:87px;display:flex;flex-direction:column;gap:13px;font-size:17px;font-weight:500}
   .legend h3{font-size:15.7px;font-weight:600}
   .legend span{display:flex;align-items:center;gap:10.5px}
-  .legend i{width:21px;height:21px;flex:none;display:inline-block}
+  .legend i{width:21px;height:21px;flex:none;display:inline-block;opacity:var(--leg-alpha)}
+  .legend i.res{background:#FCEFD9;box-shadow:inset 0 0 0 2px var(--stroke);opacity:1}
   #tema{margin-top:40px;display:flex;gap:4px;font-size:11px;opacity:.45;transition:opacity .2s;align-self:flex-start}
   #tema:hover{opacity:1}
   #tema button{font:inherit;color:var(--text);background:none;border:1px solid var(--text);padding:3px 9px;cursor:pointer;letter-spacing:.04em}
@@ -81,7 +87,7 @@
       <span><i style="background:var(--t7088)"></i>Salas de 70 a 88 m²</span>
       <span><i style="background:var(--t4863)"></i>Salas de 48 a 63 m²</span>
       <span><i style="background:var(--t3941)"></i>Salas de 39 a 41 m²</span>
-      <span><i style="background:var(--res)"></i>Sala Reservada</span>
+      <span><i class="res"></i>Sala Reservada</span>
     </div>
     <div id="tema" role="group" aria-label="Cor do painel">
       <button type="button" data-escolha="black">Black</button>
