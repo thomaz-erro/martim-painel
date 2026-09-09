@@ -23,12 +23,10 @@
   .floor{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:center}
   .fl{font-size:11px;font-weight:600;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
   .units{display:flex;gap:14px}
-  .u{width:81px;height:31px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1;box-shadow:inset 0 0 0 1.5px var(--stroke)}
+  .u{width:81px;height:31px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
   .u b{font-size:12px;font-weight:800;line-height:13px}
-  /* traçado creme de 1px por fora das letras (como no Figma): stroke de 2px pintado atrás do preenchimento */
-  .u:not(.res) b,.u:not(.res) small{paint-order:stroke fill;-webkit-text-stroke:2px #FCEFD9;text-stroke:2px #FCEFD9}
   .u small{font-size:8.5px;font-weight:700;line-height:10px;opacity:.85}
-  .u.A{background:var(--t3941)} .u.C{background:var(--t4863)} .u.B{background:var(--t7088)}
+  .u.A{background:var(--t3941)} .u.C{background:var(--t4863)} .u.B{background:var(--t7088);color:#FCEFD9}
   .u.res{background:var(--res);color:rgba(27,29,27,.5)}
   .amen{height:31px;flex:none;display:flex;align-items:center;padding:0 10px;font-size:11px;color:var(--amen-text);background:var(--amen)}
   .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px}
@@ -42,9 +40,9 @@
   .title{width:321px;height:74px;color:var(--text)}
   .title svg{width:100%;height:100%;display:block}
   .updated{margin-top:21px;font-size:12px;font-style:italic;color:var(--text)}
-  .logo{margin-top:71px;width:321px;height:118px}
+  .logo{margin-top:87px;width:321px;height:118px}
   .logo svg{width:100%;height:100%;display:block;color:var(--text)}
-  .legend{margin-top:71px;display:flex;flex-direction:column;gap:13px;font-size:17px;font-weight:500}
+  .legend{margin-top:87px;display:flex;flex-direction:column;gap:13px;font-size:17px;font-weight:500}
   .legend h3{font-size:15.7px;font-weight:600}
   .legend span{display:flex;align-items:center;gap:10.5px}
   .legend i{width:21px;height:21px;flex:none;display:inline-block}
@@ -55,9 +53,7 @@
 
   /* modo LED (config.js: modoLed: true) */
   .led .u b{font-size:13.5px;line-height:14px}
-  .led .u:not(.res) b,.led .u:not(.res) small{-webkit-text-stroke-width:2.5px}
   .led .u small{font-size:10px;line-height:11px;opacity:1}
-  .led .u{box-shadow:inset 0 0 0 2px var(--stroke)}
   .led .v{font-size:11px}
   .led .fl{font-size:12px}
   .led .amen{font-size:12px}
@@ -86,7 +82,6 @@
       <span><i style="background:var(--t4863)"></i>Salas de 48 a 63 m²</span>
       <span><i style="background:var(--t3941)"></i>Salas de 39 a 41 m²</span>
       <span><i style="background:var(--res)"></i>Sala Reservada</span>
-      <span><i style="background:var(--amen)"></i>Área condominial</span>
     </div>
     <div id="tema" role="group" aria-label="Cor do painel">
       <button type="button" data-escolha="black">Black</button>
@@ -161,12 +156,19 @@ function lerPlanilha(buf){
     const ws = wb.Sheets['DADOS'] || wb.Sheets[wb.SheetNames[0]]; if (!ws) throw new Error('Não encontrei a aba DADOS.');
     grid = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
   }
-  // localiza os dois blocos pelo cabeçalho "Andar" + ("Status" | "Tipologia")
-  const achar = (col2) => grid.findIndex(r => r && String(r[0]).trim()==='Andar' && String(r[2]).trim()===col2);
-  const hs = achar('Status'), ht = achar('Tipologia');
-  if (hs<0 || ht<0) throw new Error('Não encontrei os blocos "Status" e "Tipologia" na aba DADOS.');
-  const lerBloco = (h) => { const out=[]; for (let r=h+1; r<grid.length; r++){ const row=grid[r]; if(!row || !row[0]) break;
-      const andar=parseInt(String(row[0])); const salas=[]; for(let c=1;c<row.length;c+=2){ if(row[c]==null||row[c]===''||isNaN(Number(row[c]))) continue; salas.push({n:row[c], v:row[c+1]}); }
+  // localiza os dois blocos pelo cabeçalho "Andar" + ("Status" | "Tipologia"), em qualquer coluna e sem
+  // depender de maiúsculas/minúsculas ou espaços (o Sheets e o Apps Script às vezes alteram isso)
+  const norm = v => String(v==null?'':v).trim().toLowerCase();
+  const acharCab = (rotulo) => { for (let r=0; r<grid.length; r++){ const row=grid[r]||[]; const c0=row.findIndex(v=>norm(v)==='andar');
+      if (c0>=0 && row.some(v=>norm(v)===rotulo)) return {r, c0}; } return null; };
+  const hs = acharCab('status'), ht = acharCab('tipologia');
+  if (!hs || !ht){
+    const amostra = grid.slice(0,6).map(r=>(r||[]).slice(0,4).map(v=>String(v==null?'':v)).join(' | ')).join(' // ');
+    throw new Error('Não encontrei os blocos "Status" e "Tipologia" na aba DADOS. Primeiras linhas recebidas: '+amostra);
+  }
+  const lerBloco = (h) => { const out=[]; for (let r=h.r+1; r<grid.length; r++){ const row=grid[r]; if(!row || norm(row[h.c0])==='') break;
+      const andar=parseInt(String(row[h.c0])); if (isNaN(andar)) break; const salas=[];
+      for(let c=h.c0+1;c<row.length;c+=2){ if(row[c]==null||row[c]===''||isNaN(Number(row[c]))) continue; salas.push({n:row[c], v:row[c+1]}); }
       out.push({andar, salas, obs: row[row.length-1]}); } return out; };
   const st = lerBloco(hs), tp = lerBloco(ht);
   const tipoPorSala = {}; tp.forEach(f => f.salas.forEach(s => tipoPorSala[String(s.n)] = s.v));
