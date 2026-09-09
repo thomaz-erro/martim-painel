@@ -25,6 +25,8 @@
   .units{display:flex;gap:14px}
   .u{width:81px;height:31px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1;box-shadow:inset 0 0 0 1.5px var(--stroke)}
   .u b{font-size:12px;font-weight:800;line-height:13px}
+  /* traçado creme de 1px por fora das letras (como no Figma): stroke de 2px pintado atrás do preenchimento */
+  .u:not(.res) b,.u:not(.res) small{paint-order:stroke fill;-webkit-text-stroke:2px #FCEFD9;text-stroke:2px #FCEFD9}
   .u small{font-size:8.5px;font-weight:700;line-height:10px;opacity:.85}
   .u.A{background:var(--t3941)} .u.C{background:var(--t4863)} .u.B{background:var(--t7088)}
   .u.res{background:var(--res);color:rgba(27,29,27,.5)}
@@ -53,6 +55,7 @@
 
   /* modo LED (config.js: modoLed: true) */
   .led .u b{font-size:13.5px;line-height:14px}
+  .led .u:not(.res) b,.led .u:not(.res) small{-webkit-text-stroke-width:2.5px}
   .led .u small{font-size:10px;line-height:11px;opacity:1}
   .led .u{box-shadow:inset 0 0 0 2px var(--stroke)}
   .led .v{font-size:11px}
