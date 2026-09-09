@@ -27,7 +27,7 @@
   .legend h3{font-size:12px;font-weight:600}
   .legend span{display:flex;align-items:center;gap:8px}
   .legend i{width:16px;height:16px;flex:none;display:inline-block}
-  .legend i.res{background:#1B1D1B;box-shadow:inset 0 0 0 1px #FCEFD9}
+  .legend i.res{background:var(--res);box-shadow:inset 0 0 0 1px var(--stroke)}
   .updated{margin-top:29px;font-size:12px;font-style:italic;color:var(--text)}
 
   .main{padding:20px 40px 20px 20px;display:flex;flex-direction:column;justify-content:center;gap:8px}
@@ -123,9 +123,9 @@ const CONFIG_PADRAO = {
 };
 // vista de cada posição (final), conforme nomenclatura definida pela ERRO/Idealiza
 const VISTAS_PADRAO = {
-  1:'Boulevard', 2:'Boulevard', 3:'Esq. Boulevard/The One', 4:'Esq. The One/Cassiano', 5:'Cassiano', 6:'Cassiano',
-  7:'Cassiano', 8:'Cassiano', 9:'Esq. Cassiano/Rua Acalmada', 10:'Esq. Rua Acalmada/Parque',
-  11:'Rua Acalmada', 12:'Esq. Acalmada/Parque', 13:'Esq. Parque/Boulevard', 14:'Boulevard'
+  1:'Boulevard', 2:'Boulevard', 3:'Esquina Boulevard/The One', 4:'Esquina The One/Cassiano', 5:'Cassiano', 6:'Cassiano',
+  7:'Cassiano', 8:'Cassiano', 9:'Esquina Cassiano/R. Acalmada', 10:'Esquina R. Acalmada/Parque',
+  11:'Rua Acalmada', 12:'Esquina Acalmada/Parque', 13:'Esquina Parque/Boulevard', 14:'Boulevard'
 };
 const CFG = window.MARTIM_CONFIG || {};
 const CONFIG = Object.assign({}, CONFIG_PADRAO, CFG);
