@@ -230,7 +230,8 @@ function amenLabel(andar){ return AREAS_COMUNS_NOMES[andar]||'Área condominial'
 let assinaturaAnterior = null;
 async function carregarDaPasta(){
   try{
-    const r = await fetch(CONFIG.arquivo+'?t='+Date.now(), {cache:'no-store'});
+    const sep = CONFIG.arquivo.includes('?') ? '&' : '?';
+    const r = await fetch(CONFIG.arquivo+sep+'t='+Date.now(), {cache:'no-store'});
     if(!r.ok) throw new Error('HTTP '+r.status);
     const ct = r.headers.get('content-type')||'';
     let dados, quando, assinatura;
