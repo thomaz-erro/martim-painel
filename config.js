@@ -29,6 +29,9 @@ window.MARTIM_CONFIG = {
     13:'Parque/Galeria', 14:'Galeria'
   },
 
+  // salas com floreira (asterisco no número). Deixe comentado para usar a lista padrão do painel.
+  // salasComFloreira: [2401, 2403, 2404],
+
   // nomes das áreas condominiais por andar
   areasComunsNomes: {
     7: 'Gourmet, Mirador Gourmet e Salas de reunião',

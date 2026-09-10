@@ -43,14 +43,15 @@
   .v{width:81px;flex:none;font-size:10px;font-weight:600;line-height:1.2;color:var(--text);text-align:center}
 
   /* coluna lateral: à direita, sobre o espaço livre da torre */
-  .side{position:absolute;left:1104px;top:76px;width:332px;padding:0 11px 0 0;display:flex;flex-direction:column;color:var(--text)}
+  .side{position:absolute;left:1104px;top:66px;width:332px;padding:0 11px 0 0;display:flex;flex-direction:column;color:var(--text)}
   .title{width:321px;height:74px;color:var(--text)}
   .title svg{width:100%;height:100%;display:block}
   .updated{margin-top:21px;font-size:12px;font-style:italic;color:var(--text)}
-  .logo{margin-top:77px;width:321px;height:118px}
+  .logo{margin-top:55px;width:321px;height:118px}
   .logo svg{width:100%;height:100%;display:block;color:var(--text)}
-  .legend{margin-top:77px;display:flex;flex-direction:column;gap:13px;font-size:17px;font-weight:500}
+  .legend{margin-top:55px;display:flex;flex-direction:column;gap:13px;font-size:17px;font-weight:500}
   .legend hr{width:166px;border:0;border-top:1px solid var(--text);margin:0}
+  .legend .nota{font-size:12px;font-style:italic;font-weight:400}
   .legend h3{font-size:15.7px;font-weight:600}
   .legend span{display:flex;align-items:center;gap:10.5px}
   .legend i{width:31px;height:21px;flex:none;display:inline-block}
@@ -93,6 +94,7 @@
       <hr>
       <span><i style="background:var(--blo)"></i>Sala Bloqueada</span>
       <span><i style="background:var(--ven)"></i>Sala Vendida</span>
+      <span class="nota">*Sala com floreira</span>
     </div>
     <div id="tema" role="group" aria-label="Cor do painel">
       <button type="button" data-escolha="black">Black</button>
@@ -156,7 +158,11 @@ const AREAS_PADRAO = (()=>{
   return m;
 })();
 const AREAS = Object.assign({}, AREAS_PADRAO, CFG.areas || {});
+// salas com floreira (recebem asterisco no número). Pode ser sobrescrita em config.js (salasComFloreira: [...])
+const FLOREIRA_PADRAO = [2401,2403,2404,2405,2407,2409,2410,2002,2003,2004,2006,2008,2010,1601,1603,1604,1605,1607,1609,1610,1202,1203,1204,1206,1208,1210,801,803,804,805,807,809,810,604,606,608,609,611,612,505,507,509,510,512,513,404,406,408,409,411,412,305,307,309,310,312,313,201,203,204,206,207];
 const TIPO_CLASS = { '70 a 88 m²':'B', '48 a 63 m²':'C', '39 a 41 m²':'A' };
+const FLOREIRA = new Set((CFG.salasComFloreira || FLOREIRA_PADRAO).map(String));
+
 const TIPO_ORDER = ['70 a 88 m²','48 a 63 m²','39 a 41 m²'];
 const TIPO_VAR   = { '70 a 88 m²':'--t7088', '48 a 63 m²':'--t4863', '39 a 41 m²':'--t3941' };
 
@@ -208,7 +214,7 @@ function render(andares, quando){
       cnt[estado]=(cnt[estado]||0)+1;
       const area = s.area || AREAS[s.n] || '';
       const sub = estado==='ven' ? 'VENDIDA' : (area ? area+' m²' : '');
-      return `<div class="u ${TIPO_CLASS[s.tipo]||''} ${estado}"><b>${s.n}</b><small>${sub}</small></div>`;
+      return `<div class="u ${TIPO_CLASS[s.tipo]||''} ${estado}"><b>${s.n}${FLOREIRA.has(String(s.n))?'*':''}</b><small>${sub}</small></div>`;
     }).join('');
     units.innerHTML = (ac && ac.pos==='antes' ? amen+tiles : tiles+amen);
     row.appendChild(units); el.appendChild(row);
