@@ -14,7 +14,7 @@ window.MARTIM_CONFIG = {
   tema: 'black',
 
   // relê a fonte a cada N segundos
-  recarregarCadaSeg: 15,
+  recarregarCadaSeg: 3,
 
   // status da planilha → como a sala aparece no painel:
   //   statusDisponivel → cor da tipologia; statusBloqueada → cinza "Bloqueada"; qualquer outro → amarelo "Vendida"
