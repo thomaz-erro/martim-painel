@@ -117,8 +117,9 @@
    então ao atualizar este arquivo o config.js continua valendo. */
 const CONFIG_PADRAO = {
   // FONTE DOS DADOS — use uma das três:
-  // (a) Google Sheets em tempo real, via Apps Script (recomendado — veja google-apps-script.gs):
-  //     cole aqui a URL do app da web, que termina em /exec
+  // (a) Google Sheets via Apps Script (veja google-apps-script.gs): URL do app da web, termina em /exec
+  // (a2) Google Sheets API direto (mais rápido, permite reler a cada 2 s):
+  //     'https://sheets.googleapis.com/v4/spreadsheets/ID-DA-PLANILHA/values/DADOS?key=SUA-CHAVE'
   // (b) aba DADOS publicada como CSV (Arquivo > Compartilhar > Publicar na web) — demora até ~5 min para refletir edições
   // (c) planilha .xlsx na mesma pasta do painel.html
   arquivo: 'https://script.google.com/macros/s/AKfycbw1tM-C-xwrXolul-5A4lsgk3DlS4qdavubNF_ruRitz9SrjCQh-PF3Ke2kftTBwHqE/exec',
@@ -234,8 +235,9 @@ async function carregarDaPasta(){
     const ct = r.headers.get('content-type')||'';
     let dados, quando, assinatura;
     if (ct.includes('json')){
-      const j = await r.json();                                // {atualizado, dados:[[...],[...]]}
-      dados = j.dados; quando = j.atualizado ? new Date(j.atualizado) : new Date(); assinatura = JSON.stringify(j.dados);
+      const j = await r.json();
+      // Apps Script: {atualizado, dados:[[...]]}  |  Google Sheets API: {values:[[...]]}
+      dados = j.dados || j.values; quando = j.atualizado ? new Date(j.atualizado) : new Date(); assinatura = JSON.stringify(dados);
     } else {
       const buf = await r.arrayBuffer();
       const mod = r.headers.get('last-modified'); quando = mod ? new Date(mod) : new Date();
