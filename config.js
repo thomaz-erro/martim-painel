@@ -14,10 +14,12 @@ window.MARTIM_CONFIG = {
   tema: 'black',
 
   // relê a fonte a cada N segundos
-  recarregarCadaSeg: 5,
+  recarregarCadaSeg: 15,
 
-  // status da planilha que aparecem como "Disponível"; todos os outros aparecem como "Reservada"
+  // status da planilha → como a sala aparece no painel:
+  //   statusDisponivel → cor da tipologia; statusBloqueada → cinza "Bloqueada"; qualquer outro → amarelo "Vendida"
   statusDisponivel: ['livre'],
+  statusBloqueada: ['bloqueada','bloqueado'],
 
   // vista de cada final (só precisa listar o que quiser mudar)
   vistas: {
