@@ -6,7 +6,7 @@ window.MARTIM_CONFIG = {
   // fonte dos dados — Google Sheets API (leitura direta da aba DADOS)
   // 1. Cole a sua chave de API no lugar de COLE-A-CHAVE-AQUI (Google Cloud Console > Credenciais)
   // 2. A planilha precisa estar compartilhada como "Qualquer pessoa com o link: Leitor"
-  arquivo: 'https://sheets.googleapis.com/v4/spreadsheets/19mFKxCQSPo4fzVdHsuoQQDaKjgLlv8FrdBJFqHuMPo8/values/DADOS?key=COLE-A-CHAVE-AQUI',
+  arquivo: 'https://sheets.googleapis.com/v4/spreadsheets/19mFKxCQSPo4fzVdHsuoQQDaKjgLlv8FrdBJFqHuMPo8/values/DADOS?key=AIzaSyBQxgrArm3n6-DBFO_0N9bAse2DW1qwxwM',
 
   // alternativa anterior, via Apps Script (mais lenta, não precisa de chave):
   // arquivo: 'https://script.google.com/macros/s/AKfycbw1tM-C-xwrXolul-5A4lsgk3DlS4qdavubNF_ruRitz9SrjCQh-PF3Ke2kftTBwHqE/exec',
