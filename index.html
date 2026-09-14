@@ -10,6 +10,7 @@
     --t7088:#284A9B; --t4863:#5BC2D8; --t3941:#EC713D;  /* tipologias (book pág. 74) */
     --ven:#F3DA5E;                                        /* sala vendida */
     --blo:#8A8B8A;                                        /* sala bloqueada */
+    --res:#9B7BA6;                                        /* sala reservada */
   }
   /* black: tipologias a 100%; texto creme no navy, preto no azul-claro e no laranja */
   .frame[data-tema="black"]{ --paper:#1B1D1B; --text:#FCEFD9; --tile-alpha:1; --txt-navy:#FCEFD9; --txt-azul:#1B1D1B; --txt-laranja:#1B1D1B; }
@@ -34,8 +35,9 @@
   .u.A:before{background:var(--t3941)} .u.C:before{background:var(--t4863)} .u.B:before{background:var(--t7088)}
   .u.ven{background:var(--ven);color:rgba(27,29,27,.4)!important}
   .u.blo{background:var(--blo);color:rgba(27,29,27,.5)!important}
-  .u.ven:before,.u.blo:before{display:none}
-  .u.ven small{letter-spacing:.02em}
+  .u.res{background:var(--res);color:rgba(27,29,27,.45)!important}
+  .u.ven:before,.u.blo:before,.u.res:before{display:none}
+  .u.ven small,.u.res small{letter-spacing:.02em}
   .amen{height:31px;flex:none;display:flex;align-items:center;padding:0 10px;font-size:11px;color:var(--amen-text);background:var(--amen)}
   .vistas{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:start}
   .vistas .fl{padding-top:2px}
@@ -93,6 +95,7 @@
       <span><i class="tipo" style="background:var(--t3941)"></i>39 a 41 m²</span>
       <hr>
       <span><i style="background:var(--blo)"></i>Andar Corporativo</span>
+      <span><i style="background:var(--res)"></i>Sala Reservada</span>
       <span><i style="background:var(--ven)"></i>Sala Vendida</span>
       <span class="nota">*Sala com floreira</span>
     </div>
@@ -126,11 +129,15 @@ const CONFIG_PADRAO = {
   // arquivo: 'Martim_espelho.xlsx',   // alternativa: planilha .xlsx na mesma pasta
   recarregarCadaSeg: 15,            // relê a fonte a cada N segundos
   // status da planilha → como a sala aparece no painel:
-  //   statusDisponivel → cor da tipologia; statusBloqueada → cinza "Bloqueada"; qualquer outro → amarelo "Vendida"
+  //   statusDisponivel → cor da tipologia; statusBloqueada → cinza "Andar Corporativo";
+  //   statusReservada → lilás "Sala Reservada"; qualquer outro → amarelo "Sala Vendida"
   statusDisponivel: ['livre'],
   statusBloqueada: ['bloqueada','bloqueado'],
+  statusReservada: ['reservado','reservado 2'],
   // blocos de áreas comuns: em qual andar, quantas salas de largura, e se vêm antes ou depois das salas
   areasComuns: { 7: {span: 6, pos: 'depois'}, 2: {span: 5, pos: 'antes'} },
+  // posições (finais) que este arquivo NÃO exibe — ex.: [1,2,7,8] oculta as salas 01, 02, 07 e 08 de cada andar
+  finaisOcultos: [],
 };
 // vista de cada posição (final), conforme nomenclatura definida pela ERRO/Idealiza
 const VISTAS_PADRAO = {
@@ -201,7 +208,8 @@ function render(andares, quando){
   const el = document.getElementById('floors'); el.innerHTML='';
   const fmtVista = v => v.replace(/^Esq(uina|\.) /,'').replace('/',' /<br>');
   const norm = v => String(v||'').trim().toLowerCase();
-  const vistaRow = (finais) => `<div class="fl">Vista</div><div class="units">${finais.map(i=>`<div class="v">${fmtVista(VISTAS[i]||'')}</div>`).join('')}</div>`;
+  const OCULTOS = new Set((CONFIG.finaisOcultos||[]).map(Number)); // posições (finais) que este arquivo não exibe
+  const vistaRow = (finais) => `<div class="fl">Vista</div><div class="units">${finais.filter(i=>!OCULTOS.has(i)).map(i=>`<div class="v">${fmtVista(VISTAS[i]||'')}</div>`).join('')}</div>`;
   const maxAll = Math.max(...andares.map(f=>f.salas.length));   // colunas do andar mais largo
   andares.forEach((f,k)=>{
     const row=document.createElement('div'); row.className='floor';
@@ -209,12 +217,16 @@ function render(andares, quando){
     const units=document.createElement('div'); units.className='units';
     const ac = CONFIG.areasComuns[f.andar];
     const amen = ac ? `<div class="amen" style="width:${ac.span*81+(ac.span-1)*14}px">${amenLabel(f.andar)}</div>` : '';
-    const tiles = f.salas.map(s=>{
+    const tiles = f.salas.map((s,idx)=>{
+      if (OCULTOS.has(idx+1)) return '';
       const st = norm(s.status);
-      const estado = CONFIG.statusDisponivel.map(norm).includes(st) ? 'dis' : CONFIG.statusBloqueada.map(norm).includes(st) ? 'blo' : 'ven';
+      const estado = CONFIG.statusDisponivel.map(norm).includes(st) ? 'dis'
+        : CONFIG.statusBloqueada.map(norm).includes(st) ? 'blo'
+        : CONFIG.statusReservada.map(norm).includes(st) ? 'res'
+        : 'ven';
       cnt[estado]=(cnt[estado]||0)+1;
       const area = s.area || AREAS[s.n] || '';
-      const sub = estado==='ven' ? 'VENDIDA' : (area ? area+' m²' : '');
+      const sub = estado==='ven' ? 'VENDIDA' : estado==='res' ? 'RESERVADA' : (area ? area+' m²' : '');
       return `<div class="u ${TIPO_CLASS[s.tipo]||''} ${estado}"><b>${s.n}${FLOREIRA.has(String(s.n))?'*':''}</b><small>${sub}</small></div>`;
     }).join('');
     units.innerHTML = (ac && ac.pos==='antes' ? amen+tiles : tiles+amen);
