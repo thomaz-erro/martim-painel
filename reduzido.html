@@ -215,9 +215,17 @@ function render(andares, quando){
     row.innerHTML=`<div class="fl">${f.andar}º</div>`;
     const units=document.createElement('div'); units.className='units';
     const ac = CONFIG.areasComuns[f.andar];
-    const amen = ac ? `<div class="amen" style="width:${ac.span*81+(ac.span-1)*14}px">${amenLabel(f.andar)}</div>` : '';
+    // deslocamento: se a área comum vem "antes", as salas desse andar começam no final (ac.span+1), não no final 1
+    const offset = (ac && ac.pos==='antes') ? ac.span : 0;
+    // largura da área comum se encolhe quando algum dos finais que ela ocupa está oculto
+    let amenSpan = ac ? ac.span : 0;
+    if (ac) {
+      const inicio = ac.pos==='antes' ? 1 : (f.salas.length+1);
+      for (let g=inicio; g<inicio+ac.span; g++){ if (OCULTOS.has(g)) amenSpan--; }
+    }
+    const amen = (ac && amenSpan>0) ? `<div class="amen" style="width:${amenSpan*81+(amenSpan-1)*14}px">${amenLabel(f.andar)}</div>` : '';
     const tiles = f.salas.map((s,idx)=>{
-      if (OCULTOS.has(idx+1)) return '';
+      if (OCULTOS.has(idx+1+offset)) return '';
       const st = norm(s.status);
       const estado = CONFIG.statusDisponivel.map(norm).includes(st) ? 'dis'
         : CONFIG.statusBloqueada.map(norm).includes(st) ? 'blo'
