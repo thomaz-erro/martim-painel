@@ -92,7 +92,6 @@
       <h3>Salas Disponíveis</h3>
       <span><i class="tipo" style="background:var(--t7088)"></i>70 a 88 m²</span>
       <span><i class="tipo" style="background:var(--t4863)"></i>48 a 63 m²</span>
-      <span><i class="tipo" style="background:var(--t3941)"></i>39 a 41 m²</span>
       <hr>
       <span><i style="background:var(--res)"></i>Sala Reservada</span>
       <span><i style="background:var(--ven)"></i>Sala Vendida</span>
@@ -215,9 +214,17 @@ function render(andares, quando){
     row.innerHTML=`<div class="fl">${f.andar}º</div>`;
     const units=document.createElement('div'); units.className='units';
     const ac = CONFIG.areasComuns[f.andar];
-    const amen = ac ? `<div class="amen" style="width:${ac.span*81+(ac.span-1)*14}px">${amenLabel(f.andar)}</div>` : '';
+    // deslocamento: se a área comum vem "antes", as salas desse andar começam no final (ac.span+1), não no final 1
+    const offset = (ac && ac.pos==='antes') ? ac.span : 0;
+    // largura da área comum se encolhe quando algum dos finais que ela ocupa está oculto
+    let amenSpan = ac ? ac.span : 0;
+    if (ac) {
+      const inicio = ac.pos==='antes' ? 1 : (f.salas.length+1);
+      for (let g=inicio; g<inicio+ac.span; g++){ if (OCULTOS.has(g)) amenSpan--; }
+    }
+    const amen = (ac && amenSpan>0) ? `<div class="amen" style="width:${amenSpan*81+(amenSpan-1)*14}px">${amenLabel(f.andar)}</div>` : '';
     const tiles = f.salas.map((s,idx)=>{
-      if (OCULTOS.has(idx+1)) return '';
+      if (OCULTOS.has(idx+1+offset)) return '';
       const st = norm(s.status);
       const estado = CONFIG.statusDisponivel.map(norm).includes(st) ? 'dis'
         : CONFIG.statusBloqueada.map(norm).includes(st) ? 'blo'
