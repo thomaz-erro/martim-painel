@@ -26,13 +26,15 @@
   .board{position:absolute;top:210px;left:0;right:0;bottom:0;padding:46px 64px 30px;display:flex;flex-direction:column}
   .table{display:grid;grid-template-columns:177px repeat(4,1fr);column-gap:0;flex:1}
 
-  .cell{padding-bottom:19px;border-bottom:1px solid var(--line)}
+  .cell{padding:20px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .cell.last{border-bottom:none}
   .cell.divider{border-left:1px solid var(--line);padding-left:24px}
-  .rowlabel{border-bottom:none!important}
+  .rowlabel{border-bottom:none!important;justify-content:center}
   .rowlabel b{display:block;font-size:15px;font-weight:700}
   .rowlabel i{display:block;font-size:13px;font-style:italic;opacity:.72;margin-top:2px}
 
-  .colhead{display:flex;align-items:flex-start;gap:10px}
+  .colhead{padding-top:0;padding-bottom:19px;justify-content:flex-end}
+  .colhead .row1{display:flex;align-items:flex-start;gap:10px}
   .colhead .chip{width:16px;height:32px;border-radius:3px;flex:none;margin-top:1px}
   .colhead .txt{flex:1}
   .colhead .meta{font-size:12px;font-weight:400;opacity:.72}
@@ -41,10 +43,7 @@
   .colhead .pctven .n{font-size:14px;font-weight:700}
   .colhead .pctven .t{font-size:11px;opacity:.65}
 
-  .row{display:contents}
-  .row .cell{padding-top:20px;padding-bottom:20px}
-  .row:last-child .cell{border-bottom:none}
-  .tiles{display:flex;flex-wrap:wrap;gap:11px;align-content:flex-start}
+  .tiles{display:flex;flex-wrap:wrap;gap:11px;align-content:center;justify-content:flex-start}
   .u{width:50px;height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
 
   .legend{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:13px;font-weight:600;padding-top:16px}
@@ -158,15 +157,16 @@ function render(andares, quando){
     let totalProd=0, vendidoProd=0;
     flat.forEach(s => { const final=s.n%100; if (!p.finais.includes(final)) return; if (isBlo(s.status)) return; totalProd++; if(!isDis(s.status)&&!isRes(s.status)) vendidoProd++; });
     const pct = totalProd ? Math.round(vendidoProd/totalProd*100) : 0;
-    cells.push(`<div class="cell colhead${i>0?' divider':''}">
+    cells.push(`<div class="cell colhead${i>0?' divider':''}"><div class="row1">
       <span class="chip" style="background:${p.cor}"></span>
       <span class="txt"><span class="name">${p.nome}</span><br><span class="meta">${p.meta}</span></span>
       <span class="pctven"><span class="n">${pct}%</span><br><span class="t">vendido</span></span>
-    </div>`);
+    </div></div>`);
   });
 
-  FAIXAS.forEach(fx => {
-    cells.push(`<div class="cell rowlabel"><b>${fx.nome}</b><i>${fx.sub}</i></div>`);
+  FAIXAS.forEach((fx, fi) => {
+    const ultima = fi===FAIXAS.length-1;
+    cells.push(`<div class="cell rowlabel${ultima?' last':''}"><b>${fx.nome}</b><i>${fx.sub}</i></div>`);
     PRODUTOS.forEach((p, i) => {
       const itens = flat.filter(s => p.finais.includes(s.n%100) && s.andar>=fx.min && s.andar<=fx.max && !isBlo(s.status) && (isDis(s.status) || isRes(s.status)));
       const tiles = itens.sort((a,b)=>a.n-b.n).map(s => {
@@ -174,7 +174,7 @@ function render(andares, quando){
         const fg = isRes(s.status) ? '#1B1D1B' : p.textCor;
         return `<div class="u" style="background:${bg};color:${fg}">${s.n}</div>`;
       }).join('');
-      cells.push(`<div class="cell${i>0?' divider':''}"><div class="tiles">${tiles}</div></div>`);
+      cells.push(`<div class="cell${i>0?' divider':''}${ultima?' last':''}"><div class="tiles">${tiles}</div></div>`);
     });
   });
 
