@@ -34,14 +34,14 @@
   .rowlabel i{display:block;font-size:13px;font-style:italic;opacity:.72;margin-top:2px}
 
   .colhead{padding-top:0;padding-bottom:19px;justify-content:flex-end}
-  .colhead .row1{display:flex;align-items:flex-start;gap:10px}
-  .colhead .chip{width:16px;height:32px;border-radius:3px;flex:none;margin-top:1px}
+  .colhead .row1{display:flex;align-items:center;gap:12px}
+  .colhead .chip{width:16px;height:32px;border-radius:3px;flex:none}
   .colhead .txt{flex:1}
-  .colhead .meta{font-size:12px;font-weight:400;opacity:.72}
-  .colhead .name{font-size:15px;font-weight:700}
+  .colhead .meta{display:block;font-size:12px;font-weight:400;opacity:.72}
+  .colhead .name{display:block;font-size:15px;font-weight:700;margin-top:1px}
   .colhead .pctven{margin-left:auto;text-align:right;flex:none;padding-left:10px}
-  .colhead .pctven .n{font-size:14px;font-weight:700}
-  .colhead .pctven .t{font-size:11px;opacity:.65}
+  .colhead .pctven .n{display:block;font-size:13px;font-weight:600;opacity:.85}
+  .colhead .pctven .t{display:block;font-size:11px;opacity:.6;margin-top:1px}
 
   .tiles{display:flex;flex-wrap:wrap;gap:11px;align-content:center;justify-content:flex-start}
   .u{width:50px;height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
@@ -159,8 +159,8 @@ function render(andares, quando){
     const pct = totalProd ? Math.round(vendidoProd/totalProd*100) : 0;
     cells.push(`<div class="cell colhead${i>0?' divider':''}"><div class="row1">
       <span class="chip" style="background:${p.cor}"></span>
-      <span class="txt"><span class="name">${p.nome}</span><br><span class="meta">${p.meta}</span></span>
-      <span class="pctven"><span class="n">${pct}%</span><br><span class="t">vendido</span></span>
+      <span class="txt"><span class="meta">${p.meta}</span><span class="name">${p.nome}</span></span>
+      <span class="pctven"><span class="n">${pct}%</span><span class="t">vendido</span></span>
     </div></div>`);
   });
 
